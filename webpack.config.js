@@ -1,10 +1,22 @@
 // Generated using webpack-cli http://github.com/webpack-cli
 const path = require('path')
+const fs = require('fs')
+
+const lambdasPath = 'src/lambdas'
+const lambdaNames = fs.readdirSync(path.join(__dirname, lambdasPath))
+const lambdaName = 'index'
+
+const entry = lambdaNames
+  .reduce((entryMap, lambdaNamePath) => {
+    const path = `${lambdasPath}/${lambdaNamePath}/${lambdaName}`
+    entryMap[`${path}`] = `./${path}.ts`
+    return entryMap
+  }, {})
 
 module.exports = {
   target: 'node',
   mode: 'development',
-  entry: './src/index.ts',
+  entry: entry,
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist')
@@ -20,7 +32,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\\.(ts|tsx)$/,
+        test: /\.(tsx?)$/,
         loader: 'babel-loader',
         exclude: ['/node_modules/']
       },

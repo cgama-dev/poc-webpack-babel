@@ -1,4 +1,4 @@
-import { CountryRepository } from './shared/repository'
+import { CountryRepository } from '../../shared/repository'
 
 const countryRepository = new CountryRepository()
 
